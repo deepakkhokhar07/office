@@ -13,7 +13,8 @@ router.post("/",function(req,res){
     res.send(err);
   }
  if (user!=null) {
-    
+   // console.log(user);
+ //   res.send("Order Successfully Created.");
    Product.find({sku:{$in: productsku} })
     .select('name categoryid sku Price description manufacture -_id')
     .exec(function(err,products){

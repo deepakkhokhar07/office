@@ -13,8 +13,10 @@ router.post('/register', function(req, res, next) {
     'age':req.body.age,
     'city':req.body.city,
     'state':req.body.state,
-    'country':req.body.country
-    });
+    'country':req.body.country,
+    'is_admin':req.body.is_admin,
+    'token':req.body.token
+    }); 
   userdetail.save(function(err){
     if (err) {
       console.log(err);
@@ -37,15 +39,20 @@ router.delete("/:name",function(req,res){
   });
 //Get UserDetail
 router.get("/:name",function(req,res){
-  User.find({ name:req.params.name }, function(err, user) {
+
+ User.find({}, function(err, user) {
   if (err) {
      console.log(err);
       res.send(err);
   }
+ //if(user[0].token==req.headers.authorization){
  res.send(user);
+ //}
 });
 });
-
+router.get('/test1/test',function(req,res){
+res.render("users_index",{'title':'mytitle'}); 
+});
 //Update User
 router.post("/update/:name",function(req,res){
   var username='',password='',email='',address='',age='',city='',state='',country='';

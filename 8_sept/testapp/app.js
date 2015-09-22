@@ -10,13 +10,13 @@ var users = require('./routes/users');
 var product = require('./routes/product');
 var category = require('./routes/category');
 var order = require('./routes/order');
-
+var basicAuth = require('basic-auth-connect');
 var app = express();
-
+//var Userinfo=require("../routes/User");
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');
-
+//app.use(basicAuth('username', 'password'));
 // uncomment after placing your favicon in /public
 //app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
 app.use(logger('dev'));
@@ -24,6 +24,24 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
+
+/* authentication */
+var authAdmin = function(req, res, next){
+  // check for admin
+  success = true;
+  if (success) {
+    next();
+  } else {
+    res.status(403).json({});
+  }
+  };
+var authUser = function(req, res, next) {
+  next();
+}
+app.use('/', basicAuth('username', 'password'));
+//app.use('/users', authAdmin);
+//app.use('/products', authUser);
+app.use('/products', authAdmin);
 
 app.use('/', routes);
 app.use('/users', users);

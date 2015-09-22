@@ -8,6 +8,8 @@ var userSchema = new Schema({
   password: { type: String, required: true },
   email:{type:String,required:true},
   address: String,
+  is_admin:Boolean,
+  token:String,
   age: Number,
   city:String,
   state:String,

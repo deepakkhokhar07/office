@@ -2,6 +2,7 @@ var express = require('express');
 var router = express.Router();
 var Product=require("./schema/productmodel");
 router.post("/",function(req,res){
+   
    var productdetail=new Product({
     'name':req.body.name,
     'categoryid':req.body.category,
