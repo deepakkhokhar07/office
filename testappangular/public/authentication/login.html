@@ -1,0 +1,22 @@
+ 
+<div class="container" ng-controller="loginController">
+ <h2>Login form</h2>
+ <div ng-show="error_occur">{{error_occur}}</div>
+  <form name="userForm" ng-submit="submitForm(userForm.$valid)" novalidate> 
+        <!-- EMAIL -->
+        <div class="form-group">
+            <label>Email</label>
+            <input type="email" name="email" class="form-control" ng-model="user.email" required>
+            <p ng-show="userForm.email.$invalid && !userForm.email.$pristine" class="help-block">Enter a valid email.</p>
+        </div>
+         <div class="form-group">
+            <label>Password</label>
+            <input type="password" name="password" class="form-control" ng-model="user.password" required ng-minlength="3">
+           <p ng-show="userForm.password.$error.minlength" class="help-block">Password is too short.</p>
+  
+        </div>
+        <!-- SUBMIT BUTTON -->
+        <button type="submit" class="btn btn-primary"   ng-disabled="userForm.$invalid">Submit</button>
+        
+    </form>
+</div>

@@ -1,0 +1,23 @@
+<style type="text/css"> .table1 th,.table1 td{ padding:9px;}</style>
+<table class="table-striped table-bordered table1">
+<tr>
+    <th>Name</th>
+    <th>Username</th>
+    <th>Email</th>
+    <th>Address</th>
+    <th>City</th>
+    <th>State</th>
+    <th>Country</th>
+    <th>Action</th>
+</tr>
+<tr ng-repeat="userinfo in userlist">
+    <td>{{userinfo.name}}</td>
+    <td>{{userinfo.username}}</td>
+    <td>{{userinfo.email}}</td>
+    <td>{{userinfo.address}}</td>
+    <td>{{userinfo.city}}</td>
+    <td>{{userinfo.state}}</td>
+    <td>{{userinfo.country}}</td>
+    <td>Edit/Delete</td>
+</tr>
+</table>
