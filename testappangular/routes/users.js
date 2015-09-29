@@ -34,7 +34,7 @@ router.get('/sess',function(req,res){
   res.send(req.user);
   });
 //To Delete User
-router.delete("/:name",function(req,res){
+/*router.delete("/:name",function(req,res){
   User.remove({'name':req.params.name},function(err){
      if (err) {
       console.log(err);
@@ -43,7 +43,27 @@ router.delete("/:name",function(req,res){
   
     res.send("User Successfully Deleted.");
   });
+  });*/
+router.get('/detail/:id',function(req,res){
+   User.findOne({'_id':req.params.id},function(err,user){
+     if (err) {
+      console.log(err);
+      res.send(err);
+    }
+  
+    res.json(user);
   });
+  });
+router.delete("/:id",function(req,res){
+ 
+  User.remove({'_id':req.params.id},function(err){
+    if (err) {
+      //code
+      res.json({'error':err});
+    }
+    res.json({'success':'User successfully deleted.'});
+    });
+  }) 
 //Get UserDetail
 router.get("/getUser",function(req,res){
 
@@ -107,6 +127,43 @@ router.get('/checklogged/user',function(req,res,next){
 
 });
 //Update User
+router.post('/updateinfo',function(req,res){
+  var username='',password='',address='',age='',city='',state='',country='',name='';
+  var res1={};
+  if (typeof req.body.username === 'undefined') {}else{
+   username=req.body.username;
+   res1['username']=username;
+   }
+   if (typeof req.body.password === 'undefined') {}else{
+  password=req.body.password;
+  res1['password']=password;
+  
+  }
+  if (typeof req.body.name === 'undefined') {}else{
+   name=req.body.name;
+   res1['name']=name;
+   }
+  
+  if (typeof req.body.city === 'undefined') {}else{
+  city=req.body.city; res1['city']=city;
+  }
+  if (typeof req.body.state === 'undefined') {}else{
+  state=req.body.state; res1['state']=state;
+  }
+  if (typeof req.body.country === 'undefined') {
+    
+    }else{
+  country=req.body.country;res1['country']=country;
+  }
+ 
+  
+  
+  User.findOneAndUpdate({ _id: req.body._id },res1, function(err, user) {
+  if (err) res.json({"error":err});
+
+  res.json({"success":"User updated Successfully."});
+});
+  })
 router.post("/update/:name",function(req,res){
   var username='',password='',email='',address='',age='',city='',state='',country='';
   var res1={};

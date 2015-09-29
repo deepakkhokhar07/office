@@ -1,4 +1,4 @@
-var sampleapp=angular.module('myloginapp',['ngResource','ngRoute', 'ngStorage']);
+var sampleapp=angular.module('myloginapp',['ngResource','ngRoute', 'ngStorage','angularUtils.directives.dirPagination']);
 sampleapp.config(['$routeProvider',
   function($routeProvider) {
     $routeProvider
@@ -27,6 +27,10 @@ sampleapp.config(['$routeProvider',
        }).when('/home',{
         templateUrl:'authentication/home.html',
         controller:'homeController',
+        resolve:{'loggedin': checkloggedIn}
+        }).when('/editmanageuser/:id',{
+        templateUrl:'authentication/user/edit.html',
+       controller:'manageuserController',
         resolve:{'loggedin': checkloggedIn}
         }).otherwise({
         resolve:{'loggedin': checkSessionLoggedIn}
