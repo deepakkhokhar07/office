@@ -1,1 +1,9 @@
-Category listing comes here....
+<form  ng-controller="MyCtrl" name="form" enctype="multipart/form-data">
+ 
+  <div class="button" ngf-select ng-model="file" name="file" ngf-pattern="'image/*'"
+    accept="image/*" ngf-max-size="20MB">Select a file</div>
+
+  <!--<div class="button" ngf-select ng-model="files" ngf-multiple="true">Select</div>
+  Drop files: <div ngf-drop ng-model="files" class="drop-box">Drop</div>-->
+  <button type="submit" ng-click="submit()">submit</button>
+</form>

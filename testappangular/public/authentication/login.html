@@ -1,7 +1,26 @@
- 
+ <div ng-controller="CarouselDemoCtrl">
+
+    <carousel interval="1000" no-wrap="noWrapSlides">
+      <slide ng-repeat="slide in slides" active="slide.active">
+        <img ng-src="{{slide.image}}" style="margin:auto;">
+        <div class="carousel-caption">
+          <h4>Slide {{$index+1}}</h4>
+          <p>{{slide.text}}</p>
+        </div>
+      </slide>
+    </carousel> 
+  
+  
+</div>
+ <div style="clear:both;"></div>
 <div class="container" ng-controller="loginController">
- <h2>Login form</h2>
+ <div flash-message="5000" ></div> 
+ <div>
+ <span style="width:75%"><h3>Login form</h3></span><span align="right" style="width:25%;float:right;right:0;"><a ng-click="register()" style="cursor:pointer;margin-right:2%;">Register</a><a ng-click="login()" style="cursor:pointer;">Login</a></span>
+ </div>
+ <div style="clear:both;"></div>
  <div ng-show="error_occur">{{error_occur}}</div>
+ <div class="login_div" ng-show="login_div">
   <form name="userForm" ng-submit="submitForm(userForm.$valid)" novalidate> 
         <!-- EMAIL -->
         <div class="form-group">
@@ -19,4 +38,70 @@
         <button type="submit" class="btn btn-primary"   ng-disabled="userForm.$invalid">Submit</button>
         
     </form>
+</div>
+ <div class="register_div" ng-hide="register_div">
+<form name="form" class="css-form" novalidate>
+    Name:
+    <input type="text" ng-model="user.name" name="uName" class="form-control" required="" />
+    <br />
+    <div ng-show="form.$submitted || form.uName.$touched">
+      <div ng-show="form.uName.$error.required">Name is required.</div>
+    </div>
+
+    E-mail:
+    <input type="email" ng-model="user.email" name="uEmail" class="form-control"  required="" />
+    <br />
+    <div ng-show="form.$submitted || form.uEmail.$touched">
+      <span ng-show="form.uEmail.$error.required">Email address is required.</span>
+      <span ng-show="form.uEmail.$error.email">Please enter a valid emailaddress.</span>
+    </div>
+    Username:
+    <input type="text" name="user.username" class="form-control" name="username" required="" />
+    <br>
+    <div ng-show="form.$submitted || form.username.$touched">
+      <div ng-show="form.username.$error.required">Username is required.</div>
+    </div>
+     Age:
+    <input type="text" name="user.age" class="form-control" name="age" required="" />
+    <br>
+    <div ng-show="form.$submitted || form.age.$touched">
+      <div ng-show="form.age.$error.required">Age is required.</div>
+    </div>
+     City:
+    <input type="text" name="user.city" class="form-control" name="city" required="" />
+    <br>
+    <div ng-show="form.$submitted || form.city.$touched">
+      <div ng-show="form.city.$error.required">City is required.</div>
+    </div>
+    State:
+    <input type="text" name="user.state" class="form-control" name="state" required="" />
+    <br>
+    <div ng-show="form.$submitted || form.state.$touched">
+      <div ng-show="form.state.$error.required">State is required.</div>
+    </div>
+    Country:
+    <input type="text" name="user.country" class="form-control" name="country" required="" />
+    <br>
+    <div ng-show="form.$submitted || form.country.$touched">
+      <div ng-show="form.country.$error.required">Country is required.</div>
+    </div>
+     
+    Gender:<br>
+    <input type="radio" ng-model="user.gender" value="male" />male
+    <input type="radio" ng-model="user.gender" value="female" />female
+    <br />
+    <input type="checkbox" ng-model="user.agree" name="userAgree" required="" />
+
+    I agree to the Terms and Conditions
+    <input ng-show="user.agree" type="text" ng-model="user.agreeSign" required="" />
+    <br />
+    <div ng-show="form.$submitted || form.userAgree.$touched">
+      <div ng-show="!user.agree || !user.agreeSign">Please agree and sign.</div>
+    </div>
+
+    <input type="button" ng-click="reset(form)" value="Reset" class="btn btn-danger" />
+    <input type="submit" ng-click="update(user)" value="Save" class="btn btn-primary"/>
+  </form>
+  
+ </div>
 </div>

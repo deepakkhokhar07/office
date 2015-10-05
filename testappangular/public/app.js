@@ -1,4 +1,4 @@
-var sampleapp=angular.module('myloginapp',['ngResource','ngRoute', 'ngStorage','angularUtils.directives.dirPagination']);
+var sampleapp=angular.module('myloginapp',['ngResource','ngRoute','ngFileUpload', 'ngStorage','angularUtils.directives.dirPagination',"flash",'ngAnimate', 'ui.bootstrap']);
 sampleapp.config(['$routeProvider',
   function($routeProvider) {
     $routeProvider

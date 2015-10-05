@@ -1,10 +1,31 @@
 var express = require('express');
+var multer=require('multer');
+var Busboy = require('busboy');
+var http = require('http'),
+    path = require('path'),
+    os = require('os');
+    var fs = require('fs');
 var router = express.Router();
 var User=require("./User");
+var app = express();
 var passport = require('passport')
   , LocalStrategy = require('passport-local').Strategy;
-/* GET users listing. */
-// To register User.
+  //file uploading working fine..
+  /*var storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    cb(null, './uploads/')
+  },
+  filename: function (req, file, cb) {
+    
+    cb(null, file.originalname)
+  }
+});
+var upload = multer({
+  dest: './uploads/',
+  rename: function (fieldname, filename) {
+    return filename.replace(/\W+/g, '-').toLowerCase() + Date.now()
+  },storage:storage
+});*/
 router.post('/register', function(req, res, next) {
   var userdetail=new User({
     'name':req.body.name,
@@ -43,6 +64,24 @@ router.get('/sess',function(req,res){
   
     res.send("User Successfully Deleted.");
   });
+  });*/
+//safe file uploading working fine..
+router.post('/fileupload',function(req,res){
+    var busboy = new Busboy({ headers: req.headers });
+     busboy.on('file', function(fieldname, file, filename, encoding, mimetype) {
+      console.log(os.tmpDir(), path.basename(fieldname));
+    
+      var saveTo = path.join(os.tmpDir(), path.basename(fieldname)+".png");
+      file.pipe(fs.createWriteStream(saveTo));
+    });
+     busboy.on('finish', function() {
+      res.writeHead(200, { 'Connection': 'close' });
+      console.log("file uploading done..");
+    });
+    return req.pipe(busboy);
+  });
+/*router.post('/fileupload',upload.single('file'),function(req,res){
+   res.json({"success":"file uploaded successfully"});
   });*/
 router.get('/detail/:id',function(req,res){
    User.findOne({'_id':req.params.id},function(err,user){
