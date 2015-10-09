@@ -7,9 +7,14 @@ var http = require('http'),
     var fs = require('fs');
 var router = express.Router();
 var User=require("./User");
+var Number=require("./Number");
 var app = express();
+ 
 var passport = require('passport')
   , LocalStrategy = require('passport-local').Strategy;
+ 
+ 
+
   //file uploading working fine..
   /*var storage = multer.diskStorage({
   destination: function (req, file, cb) {
@@ -26,6 +31,49 @@ var upload = multer({
     return filename.replace(/\W+/g, '-').toLowerCase() + Date.now()
   },storage:storage
 });*/
+  router.get('/sendmail', function (req, res, next) { 
+    
+  router.mailer.send('email', {
+    to: 'tester12344489@gmail.com', // REQUIRED. This can be a comma delimited string just like a normal email to field.  
+    subject: 'Test Email', // REQUIRED. 
+    //otherProperty: 'Other Property' // All additional properties are also passed to the template as local variables. 
+  }, function (err) {
+    if (err) {
+      // handle error 
+      console.log(err);
+      res.send('There was an error sending the email');
+      return;
+    }
+    res.send('Email Sent');
+  });
+});
+router.post('/savenumber',function(req, res, next) {
+  var i;
+   Number.find({'insertno':1}, 'insertno created_at',function(err, number) {
+  if (err) {
+     console.log(err);
+      res.send(err);
+  }
+ //if(user[0].token==req.headers.authorization){
+   console.log(number);
+ //}
+});
+ for(i=1;i<=10000;i++){
+ 
+  var Numberdetail=new Number({
+    'insertno':i,
+    'created_at':Date.now()
+    
+    });
+  Numberdetail.save(function(err){
+    if (err) {
+      console.log(err);
+      
+    }
+  });
+  }
+  res.send("Successfully Saved.");
+  });
 router.post('/register', function(req, res, next) {
   var userdetail=new User({
     'name':req.body.name,

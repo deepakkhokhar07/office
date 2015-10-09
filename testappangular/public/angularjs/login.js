@@ -28,6 +28,46 @@ sampleapp.factory('user', ['$resource', function($resource) {
        login: {method: 'post'}
     });
 }]);
+sampleapp.factory('getcitystate', ['$resource', function($resource) {
+  return $resource('/countries/getcountries');
+  
+}]);
+sampleapp.factory('getcityfactory', ['$resource', function($resource) {
+
+  return $resource('/countries/getcountrydetail/:id');
+}]);
+
+sampleapp.directive('userValid', function() {
+  return {
+    require: 'ngModel',
+    link: function (scope, element, attr, ngModelCtrl) {
+      function fromUser(text) {
+        var transformedInput = text.replace(/[^0-9]/g, '');
+        console.log(transformedInput);
+        if(transformedInput !== text) {
+            ngModelCtrl.$setViewValue(transformedInput);
+            ngModelCtrl.$render();
+        }
+        return transformedInput;  // or return Number(transformedInput)
+      }
+      ngModelCtrl.$parsers.push(fromUser);
+    }
+  }; 
+}).directive('autoComplete', function($timeout) {
+    return function(scope, iElement, iAttrs) {
+            iElement.autocomplete({
+                source: scope[iAttrs.uiItems],
+                select: function() {
+                    $timeout(function() {
+                      iElement.trigger('input');
+                    }, 0);
+                }
+            });
+    };
+});
+function DefaultCtrl($scope) {
+    $scope.names = ["john", "bill", "charlie", "robert", "alban", "oscar", "marie", "celine", "brad", "drew", "rebecca", "michel", "francis", "jean", "paul", "pierre", "nicolas", "alfred", "gerard", "louis", "albert", "edouard", "benoit", "guillaume", "nicolas", "joseph"];
+}
 sampleapp.controller('CarouselDemoCtrl', function ($scope) {
   $scope.noWrapSlides = false;
   var slides = $scope.slides = [];
@@ -46,8 +86,8 @@ sampleapp.controller('CarouselDemoCtrl', function ($scope) {
   }
   
 });
-sampleapp.controller('loginController', ['$sessionStorage', '$rootScope', '$scope', '$routeParams', 'user', '$location',
-    function($sessionStorage, $rootScope, $scope, $routeParams, user,$location) {
+sampleapp.controller('loginController', ['$sessionStorage', '$rootScope', '$scope', '$routeParams', 'user', '$location','getcitystate','getcityfactory',
+    function($sessionStorage, $rootScope, $scope, $routeParams, user,$location,getcitystate,getcityfactory) {
    
      if ($sessionStorage.isUserLoggedin) {
       $location.path('/home');
@@ -56,6 +96,33 @@ sampleapp.controller('loginController', ['$sessionStorage', '$rootScope', '$scop
      $scope.error_occur=false;
      $scope.login_div=true;
      $scope.register_div=true;
+     $scope.hobbies = [];
+     $scope.changecountry=function(id){
+      
+     $scope.addHobbie = function() {
+      $scope.hobbies.push({});
+     }
+     
+     $scope.removeHobbie = function(key) {
+      $scope.hobbies.slice(key, 1);
+     }
+      
+      $scope.countryid=id;
+      var getcity=getcityfactory.get({id:$scope.countryid},function(){
+        
+        $scope.user.state=getcity.state;
+        $scope.user.city=getcity.city;
+        });
+     }
+     $scope.dataall=function(){
+    
+     var countries=getcitystate.query({},function(){
+      $scope.data={ availableOptions:countries};
+        
+     
+      });
+     }
+     $scope.dataall();
      $scope.register = function(){
       $scope.register_div=false;
       $scope.login_div=false;

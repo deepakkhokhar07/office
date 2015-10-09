@@ -12,7 +12,9 @@ var users = require('./routes/users');
 var product = require('./routes/product');
 var category = require('./routes/category');
 var order = require('./routes/order');
-var basicAuth = require('basic-auth-connect');
+
+var countries = require('./routes/countries'),basicAuth = require('basic-auth-connect');
+
 var app = express();
 //var Userinfo=require("../routes/User");
 // view engine setup
@@ -51,6 +53,7 @@ app.use('/', routes);
 app.use('/users', users);
 app.use('/product', product);
 app.use('/category', category);
+app.use('/countries', countries);
 app.use('/order', order);
 
 // catch 404 and forward to error handler
