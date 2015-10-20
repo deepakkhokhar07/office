@@ -1,0 +1,46 @@
+<!doctype html>
+<html  ng-app="myloginapp">
+  <head>
+   <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.4.5/angular.js"></script>
+<script src= "http://ajax.googleapis.com/ajax/libs/angularjs/1.3.14/angular-route.js"></script>
+<script src= "http://ajax.googleapis.com/ajax/libs/angularjs/1.3.14/angular-resource.min.js"></script>
+<script src= "https://cdnjs.cloudflare.com/ajax/libs/ngStorage/0.3.6/ngStorage.min.js"></script>
+    
+    <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.4.5/angular-animate.js"></script>
+    <script src="//angular-ui.github.io/bootstrap/ui-bootstrap-tpls-0.13.4.js"></script>
+    <script src="https://raw.githubusercontent.com/michaelbromley/angularUtils/master/src/directives/pagination/dirPagination.js"></script>
+<script src="../angularjs/ng-file-upload-shim.js"></script> 
+<script src="../angularjs/ng-file-upload.js"></script>
+<link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css"/>
+    
+  
+  </head>
+  <body>
+
+
+<div>
+   <div class="col-sm-12 header" style="height:10%;" ng-show="isUserLoggedin" ng-controller="homeController">
+      <span style="float:right"><a style="cursor:pointer;" ng-click="logout()">Logout</a></span>
+   </div>
+   <div class="col-sm-12">
+      <div class="col-sm-3" ng-controller="menuController" ng-show="isUserLoggedin">
+      <ul>
+         <li><a href="javascript:void(0)" ng-click="manage_users()">Manage Users</a></li>
+         <li><a href="javascript:void(0)" ng-click="manage_category()">Manage Categories</a></li>
+       <!--  <li><a href="javascript:void(0)" ng-click="manage_subcat()">Manage Sub-Categories</a></li>-->
+         <li><a href="javascript:void(0)" ng-click="manage_product()">Manage Products</a></li>
+         <li><a href="javascript:void(0)" ng-click="manage_order()">Manage Orders</a></li>
+         <li><a href="javascript:void(0)" ng-click="manage_profile()">Edit Profile</a></li>
+      </ul>
+      </div>
+      <div class="col-sm-9"  ng-view></div>
+   </div>
+</div>
+<script src="./app.js"></script>
+<script src="./angularjs/login.js"></script>
+<script src="./angularjs/angular-flash.js"></script>
+<script src="./angularjs/menu.js"></script>
+<script src="./angularjs/user.js"></script>
+<script src="./angularjs/file-upload.js"></script>
+  </body>
+</html>

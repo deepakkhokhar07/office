@@ -1,0 +1,41 @@
+<style type="text/css"> .table1 th,.table1 td{ padding:4px;} .filter_width{ width:100%;}.sortorder:after {
+    content: '\25b2';
+  }
+  .sortorder.reverse:after {
+    content: '\25bc';
+  }</style>
+
+<table class="table-striped table-bordered table1">
+<tr>
+    <th><a href="" ng-click="order('name')">Name</a> <span class="sortorder" ng-show="predicate === 'name'" ng-class="{reverse:reverse}"></span></th>
+    <th><a href="" ng-click="order('username')">Username</a> <span class="sortorder" ng-show="predicate === 'username'" ng-class="{reverse:reverse}"></span></th>
+    <th><a href="" ng-click="order('email')">Email</a> <span class="sortorder" ng-show="predicate === 'email'" ng-class="{reverse:reverse}"></span></th>
+    <th><a href="" ng-click="order('address')">Address</a> <span class="sortorder" ng-show="predicate === 'address'" ng-class="{reverse:reverse}"></span></th>
+    <th><a href="" ng-click="order('city')">City</a> <span class="sortorder" ng-show="predicate === 'city'" ng-class="{reverse:reverse}"></span></th>
+    <th><a href="" ng-click="order('state')">State</a> <span class="sortorder" ng-show="predicate === 'state'" ng-class="{reverse:reverse}"></span></th>
+    <th><a href="" ng-click="order('country')">Country</a> <span class="sortorder" ng-show="predicate === 'country'" ng-class="{reverse:reverse}"></span></th>
+  
+    <th>Action</th>
+</tr>
+<tr>
+        <td><input class="filter_width" type="text" ng-model="filtname"></td>
+       
+    </tr>
+
+<tr dir-paginate="(key, userinfo) in userlist| filter:filtname | orderBy:predicate:reverse|itemsPerPage:2">
+    <td>{{userinfo.name}}</td>
+    <td>{{userinfo.username}}</td>
+    <td>{{userinfo.email}}</td>
+    <td>{{userinfo.address}}</td>
+    <td>{{userinfo.city}}</td>
+    <td>{{userinfo.state}}</td>
+    <td>{{userinfo.country}}</td>
+    
+    <td><a href="" ng-click="edit(userinfo._id)">Edit</a>/<a href="" ng-click="deleteuser(userinfo._id)">Delete</a></td>
+</tr>
+</table>
+<dir-pagination-controls
+        max-size="2"
+        direction-links="true"
+        boundary-links="true" >
+    </dir-pagination-controls>
