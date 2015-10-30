@@ -1,0 +1,34 @@
+<!doctype html>
+  <html>
+   <head>
+    <title>Chat Application</title> 
+  
+    <script src="https://cdn.socket.io/socket.io-1.2.0.js"></script>
+    <script src="http://code.jquery.com/jquery-1.11.1.js"></script>
+    <script type="text/javascript">
+      var socket = io.connect();
+      
+     
+  socket.on('currentuser_socketid', function (data) {
+    console.log(data);
+    socket.emit('user_socket',2);
+   
+  }); 
+   /* socket.emit('chatmessage',1,2,"hello how are you.");
+ socket.on('foo', function(msg) {
+    console.log(msg);
+    console.log("hello i am thewre.");
+});
+ socket.emit("groupchatmessage",{"userID":6,"groupID":290,"message":"miss u.","type":"text"});
+ socket.emit("grouplisting",{"userID":6}); 
+  socket.emit('createroom',{ description:"test",groupID:"",memberId:"25,1",name:"Sockets",userID:6});
+   var currentdate = new Date();
+  var time=currentdate.getFullYear()+"-"+(currentdate.getMonth()+1)+"-"+currentdate.getDate()+" "+currentdate.getHours() + ":"+ currentdate.getMinutes() + ":" + currentdate.getSeconds();
+  var time1=currentdate.getFullYear()+"-"+(currentdate.getMonth()+1)+"-"+(currentdate.getDate()-1)+" "+currentdate.getHours() + ":"+ currentdate.getMinutes() + ":" + currentdate.getSeconds();
+  socket.emit('groupchathistory',{userID:8,groupID:294,time:time});*/
+   socket.emit("notifygroup",{"userID":8,"groupID":294});
+</script>   
+  </head>
+  <body>
+  </body> 
+</html>

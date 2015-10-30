@@ -1,0 +1,135 @@
+<!doctype html>
+  <html>
+   <head>
+    <title>Chat Application</title> 
+   <style type="text/css">
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+body { font: 13px Helvetica, Arial; }
+#form { background: #000; padding: 3px; position: fixed; bottom: 0; width: 100%; }
+#form1 {  padding: 3px; position: fixed; bottom: 50px; width: 100%; }
+#form input { border: 0; padding: 10px; width: 90%; margin-right: .5%; }
+#form #button { color:#FFF; background: #2D9F0B; border: none; padding: 10px;  width: 9%; }
+#messages { list-style-type: none; margin: 0; padding: 0; }
+#messages li { padding: 5px 10px; }
+#messages li:nth-child(odd) { background: #eee; }
+#notifyUser { position: fixed; bottom: 42px; width: 100%; }
+   </style>
+    <script src="https://cdn.socket.io/socket.io-1.2.0.js"></script>
+    <script src="http://code.jquery.com/jquery-1.11.1.js"></script>
+    <script type="text/javascript">
+      var socket = io.connect();
+      socket.on('user image', function(from,m){
+      var me = $('#user').val();
+      var to_name=$("#to_name").val();
+      var color = (from == me) ? 'green' : '#009afd';
+      var from = (from == me) ? 'Me' : from;
+    
+      $('.messages.user_'+to_name).append("<li><b style='color:"+color+"'>" + from + "</b>:<img src='"+m+"' height='250' width='30%'></li>"); 
+}); 
+socket.on('connect', function(id){
+$('#status').text('Connected');
+});
+socket.on('setID', function(myID) {
+// $("#messages").addClass("user_"+myID);
+});
+socket.on('message', function(m){
+$('#message').text("> "+m);
+});
+socket.on('disconnect', function(){
+$('#status').text('Disconnected');
+});
+socket.on('customEvent', function(message) {
+$('#customEvent').text(">> "+message['time']);
+});
+function submitfunction(){
+  var from = $('#user').val();
+ var message = $('#m').val();
+ 
+  if(message != '') {
+   
+  socket.emit('chatMessage', from, message);
+}
+$('#m').val('').focus();
+  return false;
+}
+ 
+function notifyTyping() {
+  var user = $('#user').val();
+  socket.emit('notifyUser', user);
+}
+ 
+socket.on('chatMessage', function(from, msg){
+  var me = $('#user').val();
+ 
+  var color = (from == me) ? 'green' : '#009afd';
+  var from = (from == me) ? 'Me' : from;
+  $('#messages').append('<li><b style="color:' + color + '">' + from + '</b>: ' + msg + '</li>');
+});
+ 
+socket.on('notifyUser', function(user){
+  var me = $('#user').val();
+  if(user != me) {
+    $('#notifyUser').text(user + ' is typing ...');
+  }
+  setTimeout(function(){ $('#notifyUser').text(''); }, 10000);;
+});
+ 
+$(document).ready(function(){
+  var name = makeid();
+ 
+  $('#user').val(name);
+  socket.emit('chatMessage', 'System', '<b>' + name + '</b> has joined the discussion');
+});
+ 
+function makeid() {
+  var text = "";
+  var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+ 
+  for( var i=0; i < 5; i++ ) {
+    text += possible.charAt(Math.floor(Math.random() * possible.length));
+  }
+  return text;
+}
+    
+    </script>
+  </head>
+  <body>
+     
+    <ul id="messages" class="messages"></ul>
+    <span id="notifyUser"></span>
+   <div style="position:fixed;bottom:50px;">
+   
+Image file: <input type="file" id="imageFile" /><br/>
+To Name:<span onclick="return to_name('Tom');">Tom</span>, <span onclick="return to_name('John');">John</span>
+,<span onclick="return to_name('Alex');">Alex</span>
+    <form id="form" action="" onsubmit="return submitfunction();" >
+      <input type="hidden" id="user" value="" /><input id="m" autocomplete="off" onkeyup="notifyTyping();" placeholder="Type your message here.." value=""/><input type="submit" id="button" value="Send"/>
+      <input type="hidden" id="to_name" value="" />
+    </form>
+   </div>
+   <script type="text/javascript">
+    function to_name(to_name){
+      $("#to_name").val(to_name);
+      $("#messages").addClass('user_'+to_name);
+    }
+    $('#imageFile').on('change', function(e){
+var file = e.originalEvent.target.files[0],
+reader = new FileReader();
+
+reader.onload = function(evt){
+
+
+var jsonObject = {
+'imageData': evt.target.result,
+
+}
+console.log(jsonObject);
+// send a custom socket message to server
+var from = $('#user').val();
+socket.emit('user image',from, jsonObject);
+};
+reader.readAsDataURL(file);
+}); 
+   </script>
+  </body>
+</html>
